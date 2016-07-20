@@ -1,0 +1,2 @@
+# jquery-lottery
+jquery plugin
