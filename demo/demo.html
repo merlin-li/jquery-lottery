@@ -105,10 +105,6 @@
         -webkit-transition:0.8s;
         transition:0.8s;
     }
-    .start button{
-        margin: 0 auto;
-        height: auto;
-    }
     .lottery{
         width: auto;
         max-width: 800px;
@@ -121,6 +117,14 @@
         float: left;
         border: solid 1px #fff;
         list-style: none;
+    }
+    .start{
+        width: 100%;
+        height: 100%;
+        background: orange;
+        color: #fff;
+        text-align: center;
+        font-weight: bolder;
     }
     </style>
 </head>
@@ -135,20 +139,20 @@
     $(document).ready(function(e) {
         $('#lot').lottery({
             front: {
-                template: '<div><a>{{title}}</a><br/>price：{{price}}</div>',
+                template: '<div><span>{{title}}</span><br/>价格：{{price}}</div>',
                 data: [
-                    {title: 1, price: '100'}, 
+                    {title: '第一个商品', price: '100'}, 
                     {title: 2, price: '200'}, 
                     {title: 3, price: '300'}, 
                     {title: 4, price: '400'}, 
                     {title: 5, price: '500'}, 
                     {title: 6, price: '600'},
                     {title: 7, price: '700'}, 
-                    {title: 8, price: '800'}
+                    {title: '最后一个商品', price: '800'}
                 ]
             },
             back: '<a>背面</a>',
-            startBtn: '<button>start</button>',
+            startBtn: '<a>点击开始</a>',
             hasLotteryCount: true,
             pick: function (i) {
                 //翻牌的事件
