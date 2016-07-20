@@ -1,0 +1,116 @@
+.fQ_container {
+    position:relative;
+    cursor:pointer;
+    -moz-perspective: 800px;
+    -webkit-perspective: 800px;
+    perspective: 800px;
+    font-size:24px;
+    font-family:'Segoe UI', 'Segoe', 'Open Sans', sans-serif;
+}
+.fQ_container div.fQ_back, .fQ_container div.fQ_front{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    text-align:center;
+    background:#0080C0;
+    color:#fff;
+    -moz-backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -moz-transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    /*-moz-transition:0.8s;
+    -webkit-transition: 0.8s;
+    transition: 0.8s;*/
+    -moz-animation: pulse 2s infinite;
+    -webkit-animation: pulse 2s infinite;
+}
+.fQ_front {
+    opacity:0;
+    z-index:2;
+    -moz-transform:rotateX(180deg);
+    -webkit-transform:rotateX(180deg);
+    transform:rotateX(180deg);
+}
+.fQ_front img{
+    max-width: 80%;
+}
+.fQ_back {
+    z-index:3;
+    height:100%;
+}
+.fQ_container.fQ_flip .fQ_front {
+    opacity:1;
+    -moz-transform:rotateX(0deg);
+    -webkit-transform:rotateX(0deg);
+    transform:rotateX(0deg);
+}
+.fQ_container.fQ_flip .fQ_back {
+    opacity:0;
+    -moz-transform:rotateX(-180deg);
+    -webkit-transform:rotateX(-180deg);
+    transform:rotateX(-180deg);
+}
+.fQ_quote {
+    background-color:transparent;
+    -moz-transition:background-color 0.8s ease-in-out, color 0.4s ease-in-out;
+    -webkit-transition:background-color 0.8s ease-in-out, color 0.4s ease-in-out;
+    -o-transition:background-color 0.8s ease-in-out, color 0.4s ease-in-out;
+    transition:background-color 0.8s ease-in-out, color 0.4s ease-in-out;
+}
+.fQ_container{
+    width: 250px;
+    height: 200px;
+    z-index: 9;
+    position: absolute;
+}
+.fQ_container div{
+    height: 100%;
+    display: flex;
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -webkit-box;
+    display: -ms-flex-box;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    justify-content: center;
+    -ms-justify-content: center;
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+}
+.fQ_container a{
+    display: block;
+    width: 100%;
+}
+.fQ_container.fQ_flip div{
+    -moz-transition:0.8s;
+    -webkit-transition:0.8s;
+    transition:0.8s;
+}
+.lottery{
+    width: auto;
+    max-width: 800px;
+    position: relative;
+    margin: 100px auto;
+}
+.lottery li{
+    width: 250px;
+    height: 200px;
+    float: left;
+    border: solid 1px #fff;
+    list-style: none;
+}
+.start{
+    width: 100%;
+    height: 100%;
+    background: orange;
+    color: #fff;
+    text-align: center;
+    font-weight: bolder;
+}
