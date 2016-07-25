@@ -35,9 +35,6 @@
     -webkit-transform:rotateX(180deg);
     transform:rotateX(180deg);
 }
-.fQ_front img{
-    max-width: 80%;
-}
 .fQ_back {
     z-index:3;
     height:100%;
@@ -103,7 +100,7 @@
     width: 250px;
     height: 200px;
     float: left;
-    border: solid 1px #fff;
+    border: solid 1px lightblue;
     list-style: none;
 }
 .start{

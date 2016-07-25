@@ -17,11 +17,13 @@
 
     <ul id="lot" class="lottery clearfix"></ul>
 
-    <script src="js/jquery.js"></script>
+    <script src="js/zepto.js"></script>
     <script src="js/jquery.lottery.js"></script>
     <script type="text/javascript">
 
-    $(document).ready(function(e) {
+    $(function($){
+        // $.fx.off = true;
+        console.log($.fx.off);
         $('#lot').lottery({
             front: {
                 template: '<div><span>{{title}}</span><br/>价格：{{price}}</div>',
@@ -41,7 +43,7 @@
             hasLotteryCount: true,
             pick: function (i) {
                 //翻牌的事件
-                alert(i);
+                console.log(i);
             },
             startLottery: function() {
                 //开始的事件
