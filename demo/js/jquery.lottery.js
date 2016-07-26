@@ -147,9 +147,7 @@ $.fn.lottery = function(options) {
                     lotteryCopy = [];
                 if (!$(this).data('finished')){
                     $(this).data('finished', 'done');
-                    lotteryItems.data('start', 'true');
                     $('.fQ_container').addClass('fQ_flip');
-
                     setTimeout(function(){
                         _startAnimation(lotteryItems, 0, 
                             {
@@ -174,6 +172,7 @@ $.fn.lottery = function(options) {
 
                     setTimeout(function(){
                         _endAnimation(lotteryCopy, positions, 0);
+                        lotteryItems.data('start', 'true');
                     },3000);
                     
                     if (options.startLottery && options.startLottery instanceof Function) {
