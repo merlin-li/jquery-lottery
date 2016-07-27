@@ -11,7 +11,6 @@
         },
         back: '',
         startBtn: '',
-        hasLotteryCount: true/false,
         pick: function (i) {
         },
         startLottery: function () {
@@ -24,7 +23,6 @@ $.fn.lottery = function(options) {
         mtop = me.offset().top,
         backTemplate = '<div class="fQ_front">{{back}}</div>',
         frontTemplate = '<div class="fQ_back">{{front}}</div>',
-
         //重新洗牌函数
         _mess = function(arr) {
             var _floor = Math.floor, _random = Math.random, 
@@ -50,25 +48,36 @@ $.fn.lottery = function(options) {
             }
             return result;
         },
-        _endAnimation = function(tarray, parray, i) {
+        _animate = function(tarray, p, i){
             if (i < tarray.length) {
                 var t = $(tarray[i]),
+                    isArray = Object.prototype.toString.call(p) === '[object Array]',
                     thisLeft = t.offset().left - mleft,
                     thisTop = t.offset().top - mtop,
                     start = 0,
                     stepLeft, stepTop, intervalTimer;
-                stepLeft = (parray[i].left - thisLeft) / 50;
-                stepTop = (parray[i].top - thisTop) / 50;
+                if (isArray) {
+                    stepLeft = (p[i].left - thisLeft) / 50;
+                    stepTop = (p[i].top - thisTop) / 50;
+                } else {
+                    stepLeft = (p.left - thisLeft) / 50;
+                    stepTop = (p.top - thisTop) / 50;
+                }
+                
                 intervalTimer = setInterval(function(){
                     if (start === 50) {
                         clearInterval(intervalTimer);
                     } else if (start === 5) {
-                        _endAnimation(tarray, parray, i + 1);
+                        _animate(tarray, p, i + 1);
                     } else if (start === 49) {
-                        t.css({
-                            left: parray[i].left,
-                            top: parray[i].top
-                        });
+                        if (isArray) {
+                            t.css(p[i]); 
+                        } else {
+                            t.css(p);
+                        }
+                        if (i === tarray.length - 1) {
+                            // console.log('last done');
+                        }
                     } else {
                         t.css({
                             left: t.offset().left - mleft + stepLeft,
@@ -77,37 +86,11 @@ $.fn.lottery = function(options) {
                     }
                     start++;
                 }, 20);
+            } else {
+                // console.log('fail: function done.');
             }
-        },
-        _startAnimation = function(tarray, i, prop) {
-            if (i < tarray.length) {
-                var t = $(tarray[i]),
-                    thisLeft = t.offset().left - mleft,
-                    thisTop = t.offset().top - mtop,
-                    start = 0,
-                    stepLeft, stepTop, intervalTimer;
-                stepLeft = (prop.left - thisLeft) / 50;
-                stepTop = (prop.top - thisTop) / 50;
-                intervalTimer = setInterval(function(){
-                    if (start === 50) {
-                        clearInterval(intervalTimer);
-                    } else if (start === 5) {
-                        _startAnimation(tarray, i + 1, prop);
-                    } else if (start === 49) {
-                        t.css({
-                            left: prop.left,
-                            top: prop.top
-                        });
-                    } else {
-                        t.css({
-                            left: t.offset().left - mleft + stepLeft,
-                            top: t.offset().top - mtop + stepTop
-                        });
-                    }
-                    start++;
-                }, 20);
-            }
-        };
+        }
+
     if (!options) {
         console.error('param error: "options" is required.');
     } else {
@@ -131,37 +114,35 @@ $.fn.lottery = function(options) {
             //已经将翻牌的数据存入到了lotteryArray，使用html重写
             me.html('<li>' + lotteryArray.join('</li><li>') + '</li>');
             //设置翻牌和点击的事件
-            me.delegate('.fQ_container', 'click', function(){
+            me.on('tap', '.fQ_container', function(){
                 if ($(this).data('start') && options.pick && options.pick instanceof Function) {
                     options.pick(options.front.data[$(this).data('index')]);
                     $(this).removeClass('fQ_flip');
                 }
             });
-            me.delegate('.start', 'click', function(){
+            me.on('tap', '.start', function(){
                 //点击了开始翻牌按钮
                 var lotteryItems = me.find('.fQ_container'), 
                     targetItem = me.find('.start'),
-                    meLeft = me.offset().left,
-                    meTop = me.offset().top,
                     positions = [],
                     lotteryCopy = [];
                 if (!$(this).data('finished')){
                     $(this).data('finished', 'done');
-                    $('.fQ_container').addClass('fQ_flip');
+                    lotteryItems.addClass('fQ_flip');
                     setTimeout(function(){
-                        _startAnimation(lotteryItems, 0, 
+                        _animate(lotteryItems, 
                             {
-                                left: targetItem.offset().left - meLeft,
-                                top: targetItem.offset().top - meTop
-                            });
+                                left: targetItem.offset().left - mleft,
+                                top: targetItem.offset().top - mtop
+                            }, 0);
                     }, 800);
 
                     //随机返还到原来的位置
                     lotteryItems.each(function(){
                         // positions.push($(this).offset());
                         positions.push({
-                            left: $(this).offset().left - meLeft,
-                            top: $(this).offset().top - meTop,
+                            left: $(this).offset().left - mleft,
+                            top: $(this).offset().top - mtop,
                         });
                         lotteryCopy.push($(this));
                     });
@@ -171,7 +152,7 @@ $.fn.lottery = function(options) {
                     _mess(lotteryCopy);
 
                     setTimeout(function(){
-                        _endAnimation(lotteryCopy, positions, 0);
+                        _animate(lotteryCopy, positions, 0);
                         lotteryItems.data('start', 'true');
                     },3000);
                     
